@@ -11,7 +11,6 @@ body{
     align-items: center;
     justify-content: space-between;
     
-    
 }
 
 header{
@@ -48,9 +47,12 @@ header ul>li:hover{
 main{
     width: 100%;
     display: grid;
-    padding: 32px;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 4fr;
     gap: 54px;
+}
+
+.sidebar{
+    grid-column: 1/2;
 }
 
 .task-holder
@@ -63,23 +65,32 @@ main{
 
 .task-header
 {
-    grid-column: 1/-1;
     font-size: 36px;
-    place-self: start center;
+    place-self: start;
 }
 
 .task{
-    height: 64px;
-    width: 300px;
+    height: 72px;
     display: grid;
-    grid-template-columns: 0.8fr 4fr 1fr;
+    grid-template-columns: 1fr 200fr 1fr;
+    padding: 5px 15px;
+    gap: 15px;
+    border-radius: 8px;
 }
 
 .task-marker{
     border-radius: 50%;
     height: 20px;
     width: 20px;
-    place-self: center;
+    place-self: center start;
+}
+
+.task-content{
+    place-self: center start;
+}
+
+.task-parameters{
+    place-self: center end;
 }
 
 .task-content,
@@ -89,7 +100,7 @@ main{
     flex-direction: column;
     align-items: start;
     justify-content: space-between;
-    padding: 4px 0;
+    gap: 4px;
 }
 
 .task-title{
@@ -130,7 +141,7 @@ main{
 
 .space{
     width: 300px;
-    height: 300px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

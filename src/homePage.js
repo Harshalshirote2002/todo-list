@@ -1,21 +1,36 @@
 export default function createHome(){
-    const main = document.createElement('main');    
+    const main = document.createElement('main');
+    const sidebar = document.createElement('div');
+    const sidebarHead = document.createElement('div');
+    const sidebarContent = document.createElement('div');
     const taskHolder = document.createElement('div');
-    const workSpaceHolder = document.createElement('div');
-    taskHolder.classList.add('task-holder');
-    workSpaceHolder.classList.add('workspace-holder');
-    const addTask = document.createElement('button');
-    addTask.classList.add('add-task');
-    addTask.textContent = 'Add Task';
     const taskHead = document.createElement('div');
+    const taskContent = document.createElement('div');
+    const addTask = document.createElement('button');
+    sidebar.classList.add('sidebar');
+    sidebarHead.classList.add('sidebar-header');
+    sidebarHead.textContent = 'Menu';
+    sidebarContent.classList.add('sidebar-content');
+    taskHolder.classList.add('task-holder');
     taskHead.classList.add('task-header');
     taskHead.textContent = 'Tasks';
-    const workSpaceHead = document.createElement('div');
-    workSpaceHead.classList.add('workspace-header');
-    workSpaceHead.textContent = 'Workspaces';
+    taskContent.classList.add('task-content');
+    addTask.classList.add('add-task')
+
+    sidebar.appendChild(sidebarHead);
     taskHolder.appendChild(taskHead);
-    workSpaceHolder.appendChild(workSpaceHead);
-    for(let i=0; i<12; i++){
+    
+    for (let i = 0; i < 4; i++) {
+        const space = document.createElement('div');
+        const title = document.createElement('p');
+        space.classList.add('space');
+        title.classList.add('space-title');
+        title.textContent = 'title';
+        space.appendChild(title);
+        sidebarContent.appendChild(space);
+    }
+
+    for (let i = 0; i < 12; i++) {
         const task = document.createElement('div');
         const marker = document.createElement('button');
         const content = document.createElement('div');
@@ -33,34 +48,18 @@ export default function createHome(){
         parameters.classList.add('task-parameters');
         deadline.classList.add('task-deadline');
         priority.classList.add('task-priority');
-        title.textContent='title';
-        description.textContent='description';
-        deadline.textContent='d...';
-        priority.textContent='p...';
+        title.textContent = 'title';
+        description.textContent = 'description';
+        deadline.textContent = 'd...';
+        priority.textContent = 'p...';
         content.append(title, description);
         parameters.append(deadline, priority);
         task.append(marker, content, parameters);
         taskHolder.appendChild(task);
     }
 
-    const spaceContent = document.createElement('div');
-    spaceContent.classList.add('space-content');
-    for(let i=0; i<4; i++){
-        const space = document.createElement('div');
-        const title = document.createElement('p');
-        space.classList.add('space');
-        title.classList.add('space-title');
-        title.textContent='title';
-        space.appendChild(title);
-        spaceContent.appendChild(space);
-    }
-
-    workSpaceHolder.appendChild(spaceContent);
-
-
-
-
-
-    main.append(taskHolder, workSpaceHolder, addTask);
+    
+    sidebar.appendChild(sidebarContent);
+    main.append(sidebar, taskHolder, addTask);
     return main;
 }
