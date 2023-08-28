@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     border: 1px solid red;
 }
 
@@ -14,12 +15,12 @@ body{
 }
 
 header{
-    width: 100vw;
+    width: 100%;
+    box-sizing: border-box;
     padding: 24px 32px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     place-self: center stretch;
-    box-sizing: border-box;
 }
 
 h1{
@@ -47,40 +48,103 @@ header ul>li:hover{
 main{
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
+    padding: 32px;
+    grid-template-columns: 1fr 3fr;
+    gap: 54px;
 }
 
-.task-holder, 
-.workspace-holder
+.task-holder
 {
     display: grid;
-    padding: 24px;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    padding: 20px;
     gap: 20px;
+    min-width: 345px;
 }
 
-.task{
-    height: 150px;
-}
-
-.work-space{
-    height: 150px;
-}
-
-.task-header, 
-.workspace-header
+.task-header
 {
     grid-column: 1/-1;
     font-size: 36px;
     place-self: start center;
 }
 
+.task{
+    height: 64px;
+    width: 300px;
+    display: grid;
+    grid-template-columns: 0.8fr 4fr 1fr;
+}
+
+.task-marker{
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    place-self: center;
+}
+
+.task-content,
+.task-parameters
+{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+.task-title{
+    font-size: 24px;
+    height: 30px;
+}
+
+.task-description{
+    height: 18px;
+    font-size: 14px;
+}
+
+.task-parameters{
+    font-size: 18px;
+}
+
+.workspace-holder{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.workspace-header{
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-content{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.space{
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-title{
+    font-size: 32px;
+}
+
 .add-task::before{
     content: '+ ';
     font-size: 28px;
     font-weight: 900;
-    color: rebeccapurple;
+    color: rgb(0, 0, 0);
     align-items: center;
 }
 
@@ -94,17 +158,17 @@ main{
     font-size: 20px;
     font-weight: 900;
     transition: 0.2s;
-    margin: 24px;
 }
 
 .add-task:hover{
     cursor: pointer;
     transform: scale(1.03);
+    background-color: rgb(85, 255, 244);
 }
 
 footer{
-    /* position: fixed;
-    bottom: 0; */
+    width: 100%;
+    padding: 20px;
     display: flex;
     font-size: 24px;
     align-items: center;

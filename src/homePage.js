@@ -17,14 +17,45 @@ export default function createHome(){
     workSpaceHolder.appendChild(workSpaceHead);
     for(let i=0; i<12; i++){
         const task = document.createElement('div');
-        const workSpace = document.createElement('div');
+        const marker = document.createElement('button');
+        const content = document.createElement('div');
+        const parameters = document.createElement('div');
+        const title = document.createElement('p');
+        const description = document.createElement('p');
+        const deadline = document.createElement('p');
+        const priority = document.createElement('p');
         task.classList.add('task');
-        workSpace.classList.add('work-space');
-        task.textContent=`task ${i+1}`;
-        workSpace.textContent=`Workspace ${i+1}`;
+        task.classList.add(`${i}`);
+        marker.classList.add(`task-marker`);
+        content.classList.add('task-content');
+        title.classList.add('task-title');
+        description.classList.add('task-description');
+        parameters.classList.add('task-parameters');
+        deadline.classList.add('task-deadline');
+        priority.classList.add('task-priority');
+        title.textContent='title';
+        description.textContent='description';
+        deadline.textContent='d...';
+        priority.textContent='p...';
+        content.append(title, description);
+        parameters.append(deadline, priority);
+        task.append(marker, content, parameters);
         taskHolder.appendChild(task);
-        workSpaceHolder.appendChild(workSpace);
     }
+
+    const spaceContent = document.createElement('div');
+    spaceContent.classList.add('space-content');
+    for(let i=0; i<4; i++){
+        const space = document.createElement('div');
+        const title = document.createElement('p');
+        space.classList.add('space');
+        title.classList.add('space-title');
+        title.textContent='title';
+        space.appendChild(title);
+        spaceContent.appendChild(space);
+    }
+
+    workSpaceHolder.appendChild(spaceContent);
 
 
 
