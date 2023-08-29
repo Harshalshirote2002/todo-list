@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 body{
@@ -47,35 +47,92 @@ header ul>li:hover{
 main{
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 4fr;
-    gap: 54px;
+    grid-template-columns: 1fr 10fr;
 }
 
 .sidebar{
-    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 2vh;
+    background-color: #e5e7eb;
+    max-width: 300px;
+    min-width: 250px;
+}
+
+.sidebar-header{
+    font-size: 36px;
+    place-self: start;
+}
+
+.sidebar-content{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.space{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
 .task-holder
 {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     gap: 20px;
-    min-width: 345px;
+    background-image: url(./images/task-background.jpg);
+    background-size: cover;
+    min-height: 100vh;
 }
 
 .task-header
 {
     font-size: 36px;
-    place-self: start;
+    font-weight: 900;
+    align-items: center;
+    justify-content: start;
+    color: white;
+}
+
+.tasks-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    height: 100%;
 }
 
 .task{
-    height: 72px;
+    height: 64px;
     display: grid;
     grid-template-columns: 1fr 200fr 1fr;
     padding: 5px 15px;
     gap: 15px;
     border-radius: 8px;
+    background-color: #f9fafb;
+    transition: height 0.3s ease;
+    overflow: hidden;
+}
+
+.task-notes{
+    display: grid;
+    grid-column: 2/3;
+}
+
+.task:hover{
+    cursor: pointer;
+}
+  
+.task-dropdown-active{
+    height: max-content; 
 }
 
 .task-marker{
@@ -117,64 +174,71 @@ main{
     font-size: 18px;
 }
 
-.workspace-holder{
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.workspace-header{
-    font-size: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.space-content{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-
-.space{
-    width: 300px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.space-title{
-    font-size: 32px;
-}
-
 .add-task::before{
     content: '+ ';
-    font-size: 28px;
-    font-weight: 900;
-    color: rgb(0, 0, 0);
+    font-size: 30px;
+    color: white;
     align-items: center;
 }
 
 .add-task{
-    grid-column: 1/3;
-    width: 150px;
-    height: 40px;
-    place-self: center;
-    border-radius: 15px;
-    background-color: rgb(169, 253, 248);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    padding-left: 20px;
+    width: 100%;
+    height: 64px;
+    border-radius: 8px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.55);
     font-size: 20px;
     font-weight: 900;
     transition: 0.2s;
+    position: sticky;
+    bottom: 10px;
 }
 
 .add-task:hover{
     cursor: pointer;
-    transform: scale(1.03);
-    background-color: rgb(85, 255, 244);
+    transform: scale(1.005);
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.add-task-form::before{
+    content: 'Task';
+    font-size: 36px;
+    place-self: start center;
+}
+
+.add-task-form{
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 420px;
+}
+
+form>div{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+form label{
+    width: 100px;
+}
+
+form>div:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 20px;
+}
+
+form button{
+    width: 100px;
+    height: 32px;
 }
 
 footer{
