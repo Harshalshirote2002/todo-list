@@ -1,6 +1,6 @@
-import createHome from "./homePage.js";
+import {updateTaskDisplay} from "./homePage.js";
 import './styles.css';
 
-const main = createHome();
+const main = updateTaskDisplay();
 const body = document.querySelector('body');
 body.appendChild(main);

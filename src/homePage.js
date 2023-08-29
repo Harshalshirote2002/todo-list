@@ -1,6 +1,15 @@
-import {createDialog, submitEvent} from './taskDialog.js';
+import { createDialog } from './taskDialog.js';
+import { getTasks } from './taskData.js';
+const main = document.createElement('main');
+const sidebar = document.createElement('div');
+const sidebarHead = document.createElement('div');
+const sidebarContent = document.createElement('div');
+const taskHolder = document.createElement('div');
+const taskHead = document.createElement('div');
+const taskContent = document.createElement('div');
+const addTask = document.createElement('button');
 
-function callDialog(){
+function callDialog() {
     const dialog = document.querySelector('dialog');
     dialog.showModal();
     const dialogWidth = dialog.offsetWidth;
@@ -13,31 +22,91 @@ function callDialog(){
     dialog.style.top = `${topPosition}px`;
 }
 
-function viewDropdown(e){
+function viewDropdown(e) {
     const allTasks = Array.from(document.querySelectorAll('.task'));
-    allTasks.forEach((task) =>  {
-        if(Array.from(task.classList).includes('task-dropdown-active')){
-            if(!(e.target==task)){
+    allTasks.forEach((task) => {
+        if (Array.from(task.classList).includes('task-dropdown-active')) {
+            if (!(e.target == task)) {
                 task.classList.remove('task-dropdown-active');
             }
         }
     });
-    if(Array.from(e.target.classList).includes('task-dropdown-active')){
+    if (Array.from(e.target.classList).includes('task-dropdown-active')) {
         e.target.classList.remove('task-dropdown-active');
-    }else{
+    } else {
         e.target.classList.add('task-dropdown-active');
     }
 }
 
-export default function createHome(){
-    const main = document.createElement('main');
-    const sidebar = document.createElement('div');
-    const sidebarHead = document.createElement('div');
-    const sidebarContent = document.createElement('div');
-    const taskHolder = document.createElement('div');
-    const taskHead = document.createElement('div');
-    const taskContent = document.createElement('div');
-    const addTask = document.createElement('button');
+// export function createHome() {
+//     sidebar.classList.add('sidebar');
+//     sidebarHead.classList.add('sidebar-header');
+//     sidebarHead.textContent = 'John Doe';
+//     sidebarContent.classList.add('sidebar-content');
+//     taskHolder.classList.add('task-holder');
+//     taskHead.classList.add('task-header');
+//     taskHead.textContent = 'Tasks';
+//     taskContent.classList.add('tasks-container');
+//     addTask.classList.add('add-task')
+//     addTask.textContent = 'Add a task';
+//     addTask.addEventListener('click', callDialog);
+
+//     sidebar.appendChild(sidebarHead);
+//     taskHolder.appendChild(taskHead);
+
+//     for (let i = 0; i < 4; i++) {
+//         const space = document.createElement('div');
+//         const title = document.createElement('p');
+//         space.classList.add('space');
+//         title.classList.add('space-title');
+//         title.textContent = 'title';
+//         space.appendChild(title);
+//         sidebarContent.appendChild(space);
+//     }
+
+//     const tasks = getTasks();
+
+//     for (let i = 0; i < tasks.length; i++) {
+//         const task = document.createElement('div');
+//         const marker = document.createElement('button');
+//         const content = document.createElement('div');
+//         const parameters = document.createElement('div');
+//         const title = document.createElement('p');
+//         const description = document.createElement('p');
+//         const deadline = document.createElement('p');
+//         const priority = document.createElement('p');
+//         const notes = document.createElement('div');
+//         task.classList.add('task');
+//         task.classList.add(`${i}`);
+//         marker.classList.add(`task-marker`);
+//         content.classList.add('task-content');
+//         title.classList.add('task-title');
+//         description.classList.add('task-description');
+//         parameters.classList.add('task-parameters');
+//         deadline.classList.add('task-deadline');
+//         priority.classList.add('task-priority');
+//         notes.classList.add('task-notes');
+//         title.textContent = tasks[i].title;
+//         description.textContent = tasks[i].description;
+//         deadline.textContent = tasks[i].deadline;
+//         priority.textContent = tasks[i].priority;
+//         notes.textContent = tasks[i].notes;
+//         content.append(title, description);
+//         parameters.append(deadline, priority);
+//         task.append(marker, content, parameters, notes);
+//         task.addEventListener('click', viewDropdown);
+//         taskContent.appendChild(task);
+//     }
+//     taskHolder.appendChild(taskContent);
+//     taskHolder.appendChild(addTask);
+//     sidebar.appendChild(sidebarContent);
+//     const dialog = createDialog();
+//     main.append(sidebar, taskHolder, dialog);
+//     return main;
+// }
+
+export function updateTaskDisplay() {
+    main.textContent='';
     sidebar.classList.add('sidebar');
     sidebarHead.classList.add('sidebar-header');
     sidebarHead.textContent = 'John Doe';
@@ -52,7 +121,7 @@ export default function createHome(){
 
     sidebar.appendChild(sidebarHead);
     taskHolder.appendChild(taskHead);
-    
+
     for (let i = 0; i < 4; i++) {
         const space = document.createElement('div');
         const title = document.createElement('p');
@@ -63,7 +132,9 @@ export default function createHome(){
         sidebarContent.appendChild(space);
     }
 
-    for (let i = 0; i < 4; i++) {
+    const tasks = getTasks();
+    taskContent.textContent='';
+    for (let i = 0; i < tasks.length; i++) {
         const task = document.createElement('div');
         const marker = document.createElement('button');
         const content = document.createElement('div');
@@ -83,11 +154,11 @@ export default function createHome(){
         deadline.classList.add('task-deadline');
         priority.classList.add('task-priority');
         notes.classList.add('task-notes');
-        title.textContent = 'title';
-        description.textContent = 'description';
-        deadline.textContent = 'd...';
-        priority.textContent = 'p...';
-        notes.textContent = 'lorem ipsum dolor ';
+        title.textContent = tasks[i].title;
+        description.textContent = tasks[i].description;
+        deadline.textContent = tasks[i].deadline;
+        priority.textContent = tasks[i].priority;
+        notes.textContent = tasks[i].notes;
         content.append(title, description);
         parameters.append(deadline, priority);
         task.append(marker, content, parameters, notes);
@@ -99,7 +170,6 @@ export default function createHome(){
     sidebar.appendChild(sidebarContent);
     const dialog = createDialog();
     main.append(sidebar, taskHolder, dialog);
+    console.log(tasks);
     return main;
 }
-
-let tasks = [];
