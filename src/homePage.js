@@ -1,8 +1,4 @@
-import createDialog from './taskDialog.js';
-
-function taskMaker(title, description, dueDate, priority, notes, check){
-    return {title, description, dueDate, priority, notes, check};
-}
+import {createDialog, submitEvent} from './taskDialog.js';
 
 function callDialog(){
     const dialog = document.querySelector('dialog');
@@ -91,7 +87,7 @@ export default function createHome(){
         description.textContent = 'description';
         deadline.textContent = 'd...';
         priority.textContent = 'p...';
-        notes.textContent = 'lorem ipsum dolor sasdsada ff erf df f fd d h h hygy fg hghgh ggggg ggggg ggggg ggggg gggg h h hjhj lorem ipsum dolor sasdsada ff erf df f fd d h h hygy fg hghgh ggggg ggggg ggggg ggggg gggg h h hjhj lorem ipsum dolor sasdsada ff erf df f fd d h h hygy fg hghgh ggggg ggggg ggggg ggggg gggg h h hjhj';
+        notes.textContent = 'lorem ipsum dolor ';
         content.append(title, description);
         parameters.append(deadline, priority);
         task.append(marker, content, parameters, notes);
@@ -105,3 +101,5 @@ export default function createHome(){
     main.append(sidebar, taskHolder, dialog);
     return main;
 }
+
+let tasks = [];

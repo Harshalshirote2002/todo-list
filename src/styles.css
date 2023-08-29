@@ -125,6 +125,7 @@ main{
 .task-notes{
     display: grid;
     grid-column: 2/3;
+    font-size: 18px;
 }
 
 .task:hover{
