@@ -1,19 +1,17 @@
-import { addSpace } from "./spaces.js";
+import { addSpace, getSpaces } from "./spaces.js";
 import { updateDisplay } from "./homePage.js";
 import listIcon from './images/list.png';
-import { updateSpace } from "./spaces.js";
-let indexCounter = 3;
 
 function capitalizeFirstLetter(inputString) {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
 
-function generateElement(type, options){
+function generateElement(type, options) {
     let element = document.createElement(type);
-    for(const key in options){
-        if(key==='textContent' || key==='type' || key==='value'){
+    for (const key in options) {
+        if (key === 'textContent' || key === 'type' || key === 'value') {
             element[key] = options[key];
-        }else{
+        } else {
             element.setAttribute(key, options[key]);
         }
     }
@@ -74,9 +72,10 @@ dialog.appendChild(form);
 
 function submitEvent(e) {
     e.preventDefault();
+    const spaces = getSpaces();
     if (form.checkValidity()) {
         addSpace({
-            index: ++indexCounter,
+            index: spaces.length,
             title: capitalizeFirstLetter(title.value),
             imageSrc: listIcon,
             container: [],

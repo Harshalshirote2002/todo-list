@@ -2,12 +2,12 @@ import { format, compareAsc } from 'date-fns'
 import { createTaskDialog } from './taskDialog.js';
 import { getTasks } from './taskData.js';
 import { createSpaceDialog } from './spaceDialog.js';
-import { getSpaces, updateSpace } from './spaces.js';
+import { getSpaces } from './spaces.js';
 import searchIcon from './images/search.png';
 import deadlineImage from './images/deadline.png';
 import { updateCompleteSpace } from './spaces.js';
 import { updateTask } from './taskData.js';
-import headImage from './images/user.png'
+import headImage from './images/user.png';
 
 function generateElement(type, classes = [], options) {
     const element = document.createElement(type);
@@ -35,7 +35,6 @@ function isNonIterable(value) {
 
 const main = generateElement('main');
 const sidebar = generateElement('div', ['sidebar']);
-const sidebarHead = generateElement('div', ['sidebar-header'], { 'textContent': 'John Doe', });
 const sidebarContent = generateElement('div', ['sidebar-content']);
 const taskHolder = generateElement('div', ['task-holder']);
 const taskHead = generateElement('div', ['task-header']);
@@ -98,6 +97,7 @@ function completeTask(e){
 
 export function updateDisplay(mode = 'All') {
     main.textContent = '';
+
 
     //--------------------------------------------Sidebar--------------------------------------------//
 

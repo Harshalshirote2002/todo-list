@@ -1,14 +1,13 @@
 import taskMaker from "./taskFactory.js";
-import { addTask } from "./taskData.js";
+import { addTask, getTasks } from "./taskData.js";
 import { getSpaces } from "./spaces.js";
 import { updateDisplay } from "./homePage.js";
 import { updateSpace } from "./spaces.js";
-let id = 0;
 
 function capitalizeFirstLetter(inputString) {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
-  
+
 function generateElement(type, options) {
     let element = document.createElement(type);
     for (const key in options) {
@@ -137,10 +136,10 @@ dialog.classList.add('add-task-dialog');
 form.addEventListener('submit', submitEvent);
 dialog.appendChild(form);
 
-function spaceUpdater(task){
+function spaceUpdater(task) {
     const spaces = getSpaces();
-    for(const space of spaces){
-        if(space.title===task.project){
+    for (const space of spaces) {
+        if (space.title === task.project) {
             updateSpace(space.index, task.id, task.check);
             return;
         }
@@ -150,13 +149,13 @@ function spaceUpdater(task){
 function submitEvent(e) {
     e.preventDefault();
     if (form.checkValidity()) {
-        let task = taskMaker(id, title.value, description.value, capitalizeFirstLetter(list.value), dueDate.value, priority.value, notes.value, check.checked);
+        const tasks = getTasks();
+        let task = taskMaker(tasks.length, title.value, description.value, capitalizeFirstLetter(list.value), dueDate.value, priority.value, notes.value, check.checked);
         addTask(task);
         spaceUpdater(task)
         updateDisplay();
         form.reset();
         dialog.close();
-        id++;
     }
 }
 
@@ -167,7 +166,7 @@ function cancelEvent() {
 
 export function createTaskDialog() {
     let spaces = getSpaces();
-    list.textContent='';
+    list.textContent = '';
     for (const space of spaces) {
         if (space.title === 'All' || space.title === 'Completed') {
             continue;
