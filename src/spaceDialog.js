@@ -4,6 +4,10 @@ import listIcon from './images/list.png';
 import { updateSpace } from "./spaces.js";
 let indexCounter = 3;
 
+function capitalizeFirstLetter(inputString) {
+    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+}
+
 function generateElement(type, options){
     let element = document.createElement(type);
     for(const key in options){
@@ -74,7 +78,7 @@ function submitEvent(e) {
         console.log("space was added!");
         addSpace({
             index: ++indexCounter,
-            title: title.value,
+            title: capitalizeFirstLetter(title.value),
             imageSrc: listIcon,
             container: [],
         });

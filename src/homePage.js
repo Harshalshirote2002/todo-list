@@ -72,7 +72,12 @@ function viewDropdown(e) {
     }
 }
 
-export function updateDisplay() {
+function changeMode(e){
+    console.log(e.target.textContent);
+    updateDisplay(e.target.textContent);
+}
+
+export function updateDisplay(mode='All') {
     main.textContent = '';
 
     //--------------------------------------------Sidebar--------------------------------------------//
@@ -100,6 +105,7 @@ export function updateDisplay() {
         title.textContent = spaces[i].title;
         icon.src = spaces[i].imageSrc;
         space.append(icon, title);
+        space.addEventListener('click', changeMode);
         sidebarContent.appendChild(space);
     }
     //add New divider to separate In-built labels and custom labels
@@ -114,8 +120,8 @@ export function updateDisplay() {
         title.textContent = spaces[i].title;
         icon.src = spaces[i].imageSrc;
         space.append(icon, title);
+        space.addEventListener('click', changeMode);
         sidebarContent.appendChild(space);
-        console.log("I added space!");
     }
     //add button to create new labels
     const addSpace = generateElement('button', ['add-space'], {
@@ -124,6 +130,14 @@ export function updateDisplay() {
     addSpace.addEventListener('click', callSpaceDialog);
     sidebarContent.appendChild(addSpace);
 
+    //obtain current space task list
+    let taskList;
+    for(const space of spaces){
+        if(space.title===mode){
+            taskList = space.container;
+            break;
+        }
+    }
     //--------------------------------------------Tasks--------------------------------------------//
 
     //add tasks header
@@ -134,7 +148,7 @@ export function updateDisplay() {
     //add tasks to display
     const tasks = getTasks();
     taskContent.textContent = '';
-    for (let i = 0; i < tasks.length; i++) {
+    for (const i of taskList) {
         const task = generateElement('div', ['task', `${i}`]);
         const marker = generateElement('button', [`task-marker`]);
         const content = generateElement('div', ['task-content']);

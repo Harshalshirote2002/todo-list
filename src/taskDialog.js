@@ -5,6 +5,12 @@ import { updateDisplay } from "./homePage.js";
 import { updateSpace } from "./spaces.js";
 let id = 0;
 
+function capitalizeFirstLetter(inputString) {
+    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+}
+  
+
+
 function generateElement(type, options) {
     let element = document.createElement(type);
     for (const key in options) {
@@ -149,7 +155,7 @@ function submitEvent(e) {
     e.preventDefault();
     if (form.checkValidity()) {
         console.log("task was added!");
-        let task = taskMaker(id, title.value, description.value, list.value, dueDate.value, priority.value, notes.value, check.value);
+        let task = taskMaker(id, title.value, description.value, capitalizeFirstLetter(list.value), dueDate.value, priority.value, notes.value, check.value);
         addTask(task);
         spaceUpdater(task)
         updateDisplay();
