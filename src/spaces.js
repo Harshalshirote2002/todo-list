@@ -4,12 +4,12 @@ import icon1 from './images/icon1.png';
 import icon2 from './images/icon2.png';
 
 let spaces = [
-    {   title: "Important", 
-        imageSrc: icon3,
+    {   title: "Personal", 
+        imageSrc: icon4,
     },
     {
-        title: "Personal",
-        imageSrc: icon4,
+        title: "Important",
+        imageSrc: icon3,
     },
     {
         title: "Completed",

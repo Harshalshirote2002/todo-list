@@ -71,13 +71,14 @@ function viewDropdown(e) {
 }
 
 export function updateDisplay() {
-    main.textContent='';
-    taskHead.textContent = 'Tasks';
-    addTask.textContent = 'Add a task';
-    addTask.addEventListener('click', callTaskDialog);
+    main.textContent=''; 
+
+//--------------------------------------------Sidebar--------------------------------------------//
+
+    //add sidebar header
     sidebar.appendChild(sidebarHead);
     taskHolder.appendChild(taskHead);
-
+    //add search bar
     const spaces = getSpaces();
     sidebarContent.textContent='';
     const searchBar = document.createElement('div');
@@ -87,7 +88,9 @@ export function updateDisplay() {
     icon1.classList.add('search-icon');
     searchBar.appendChild(icon1);
     sidebarContent.appendChild(searchBar);
-    for (let i = 0; i < spaces.length; i++) {
+    //add In-built labels
+    let i=0;
+    for (i; i < 4; i++) {
         const space = generateElement('div', ['space']);
         const title = generateElement('p', ['space-title']);
         const icon = new Image();
@@ -97,16 +100,35 @@ export function updateDisplay() {
         space.append(icon, title);
         sidebarContent.appendChild(space);
     }
+    //add New divider to separate In-built labels and custom labels
     const divider = generateElement('div', ['space-divider']);
     sidebarContent.appendChild(divider);
-    
-    //logic to append custom lists
+    //add custom labels
+    for(i; i<spaces.length; i++){
+        const space = generateElement('div', ['space']);
+        const title = generateElement('p', ['space-title']);
+        const icon = new Image();
+        icon.classList.add('space-icon');
+        title.textContent = spaces[i].title;
+        icon.src = spaces[i].imageSrc;
+        space.append(icon, title);
+        sidebarContent.appendChild(space);
+        console.log("I added space!");
+    }
+    //add button to create new labels
     const addSpace = generateElement('button', ['add-space'], {
-        'textContent': 'New list',
+        'textContent': 'New label',
     })
     addSpace.addEventListener('click', callSpaceDialog);
     sidebarContent.appendChild(addSpace);
 
+//--------------------------------------------Tasks--------------------------------------------//
+    //add tasks header
+    taskHead.textContent = 'Tasks';
+    //add button to create new task
+    addTask.textContent = 'Add a task';
+    addTask.addEventListener('click', callTaskDialog);
+    //add tasks to display
     const tasks = getTasks();
     taskContent.textContent='';
     for (let i = 0; i < tasks.length; i++) {

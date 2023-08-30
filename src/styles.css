@@ -150,7 +150,7 @@ main{
 }
 
 .add-space-form::before{
-    content: 'List';
+    content: 'Label';
     font-size: 36px;
     place-self: start center;
 }

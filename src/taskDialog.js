@@ -1,13 +1,14 @@
 import taskMaker from "./taskFactory.js";
 import { addTask } from "./taskData.js";
+import { getSpaces } from "./spaces.js";
 import { updateDisplay } from "./homePage.js";
 
-function generateElement(type, options){
+function generateElement(type, options) {
     let element = document.createElement(type);
-    for(const key in options){
-        if(key==='textContent' || key==='type' || key==='value'){
+    for (const key in options) {
+        if (key === 'textContent' || key === 'type' || key === 'value') {
             element[key] = options[key];
-        }else{
+        } else {
             element.setAttribute(key, options[key]);
         }
     }
@@ -28,9 +29,8 @@ const description = generateElement('input', {
     'type': 'text',
 });
 
-const project = generateElement('input', {
-    'id': 'project',
-    'type': 'text',
+const list = generateElement('select', {
+    'id': 'list',
 });
 
 const dueDate = generateElement('input', {
@@ -67,9 +67,9 @@ const descriptionLabel = generateElement('label', {
     'textContent': 'Description:',
 });
 
-const projectLabel = generateElement('label', {
-    'for': 'project',
-    'textContent': 'Project:',
+const listLabel = generateElement('label', {
+    'for': 'list',
+    'textContent': 'Label as:',
 });
 
 const dueDateLabel = generateElement('label', {
@@ -102,9 +102,11 @@ const cancel = generateElement('button', {
     'textContent': 'Cancel',
 });
 
+
+
 const titleDiv = document.createElement('div');
 const descriptionDiv = document.createElement('div');
-const projectDiv = document.createElement('div');
+const listDiv = document.createElement('div');
 const dueDateDiv = document.createElement('div');
 const priorityDiv = document.createElement('div');
 const notesDiv = document.createElement('div');
@@ -115,14 +117,14 @@ cancel.addEventListener('click', cancelEvent);
 
 titleDiv.append(titleLabel, title);
 descriptionDiv.append(descriptionLabel, description);
-projectDiv.append(projectLabel, project);
+listDiv.append(listLabel, list);
 priorityDiv.append(priorityLabel, priority);
 dueDateDiv.append(dueDateLabel, dueDate);
 notesDiv.append(notesLabel, notes);
 checkDiv.append(checkLabel, check);
 buttonDiv.append(submit, cancel);
 
-form.append(titleDiv, descriptionDiv, projectDiv, priorityDiv, dueDateDiv, notesDiv, checkDiv, buttonDiv);
+form.append(titleDiv, descriptionDiv, listDiv, priorityDiv, dueDateDiv, notesDiv, checkDiv, buttonDiv);
 form.method = 'dialog';
 form.classList.add('add-task-form');
 dialog.classList.add('add-task-dialog');
@@ -133,7 +135,7 @@ function submitEvent(e) {
     e.preventDefault();
     if (form.checkValidity()) {
         console.log("task was added!");
-        addTask(taskMaker(title.value, description.value, project.value, dueDate.value, priority.value, notes.value, check.value));
+        addTask(taskMaker(title.value, description.value, list.value, dueDate.value, priority.value, notes.value, check.value));
         updateDisplay();
         form.reset();
         dialog.close();
@@ -146,5 +148,17 @@ function cancelEvent() {
 }
 
 export function createTaskDialog() {
+    let spaces = getSpaces();
+    list.textContent='';
+    for (const space of spaces) {
+        if (space.title === 'All' || space.title === 'Completed') {
+            continue;
+        }
+        const option = generateElement('option', {
+            'value': space.title,
+            'textContent': space.title,
+        })
+        list.appendChild(option);
+    }
     return dialog;
 }
