@@ -1,6 +1,6 @@
-import {updateTaskDisplay} from "./homePage.js";
+import {updateDisplay} from "./homePage.js";
 import './styles.css';
 
-const main = updateTaskDisplay();
+const main = updateDisplay();
 const body = document.querySelector('body');
 body.appendChild(main);

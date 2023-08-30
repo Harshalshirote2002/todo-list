@@ -1,5 +1,6 @@
-import { createDialog } from './taskDialog.js';
+import { createTaskDialog } from './taskDialog.js';
 import { getTasks } from './taskData.js';
+import { createSpaceDialog } from './spaceDialog.js';
 import { getSpaces } from './spaces.js';
 import searchIcon from './images/search.png'
 
@@ -27,8 +28,21 @@ const taskHead = generateElement('div', ['task-header']);
 const taskContent = generateElement('div', ['tasks-container']);
 const addTask = generateElement('button', ['add-task']);
 
-function callDialog() {
-    const dialog = document.querySelector('dialog');
+function callTaskDialog() {
+    const dialog = document.querySelector('.add-task-dialog');
+    dialog.showModal();
+    const dialogWidth = dialog.offsetWidth;
+    const dialogHeight = dialog.offsetHeight;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const leftPosition = viewportWidth / 2 - dialogWidth / 2;
+    const topPosition = viewportHeight / 2 - dialogHeight / 2;
+    dialog.style.left = `${leftPosition}px`;
+    dialog.style.top = `${topPosition}px`;
+}
+
+function callSpaceDialog(){
+    const dialog = document.querySelector('.add-space-dialog');
     dialog.showModal();
     const dialogWidth = dialog.offsetWidth;
     const dialogHeight = dialog.offsetHeight;
@@ -56,11 +70,11 @@ function viewDropdown(e) {
     }
 }
 
-export function updateTaskDisplay() {
+export function updateDisplay() {
     main.textContent='';
     taskHead.textContent = 'Tasks';
     addTask.textContent = 'Add a task';
-    addTask.addEventListener('click', callDialog);
+    addTask.addEventListener('click', callTaskDialog);
     sidebar.appendChild(sidebarHead);
     taskHolder.appendChild(taskHead);
 
@@ -85,6 +99,13 @@ export function updateTaskDisplay() {
     }
     const divider = generateElement('div', ['space-divider']);
     sidebarContent.appendChild(divider);
+    
+    //logic to append custom lists
+    const addSpace = generateElement('button', ['add-space'], {
+        'textContent': 'New list',
+    })
+    addSpace.addEventListener('click', callSpaceDialog);
+    sidebarContent.appendChild(addSpace);
 
     const tasks = getTasks();
     taskContent.textContent='';
@@ -117,8 +138,9 @@ export function updateTaskDisplay() {
     taskHolder.appendChild(taskContent);
     taskHolder.appendChild(addTask);
     sidebar.appendChild(sidebarContent);
-    const dialog = createDialog();
-    main.append(sidebar, taskHolder, dialog);
+    const taskDialog = createTaskDialog();
+    const spaceDialog = createSpaceDialog();
+    main.append(sidebar, taskHolder, taskDialog, spaceDialog);
     console.log(tasks);
     return main;
 }

@@ -1,6 +1,6 @@
 import taskMaker from "./taskFactory.js";
 import { addTask } from "./taskData.js";
-import { updateTaskDisplay } from "./homePage.js";
+import { updateDisplay } from "./homePage.js";
 
 function generateElement(type, options){
     let element = document.createElement(type);
@@ -134,7 +134,7 @@ function submitEvent(e) {
     if (form.checkValidity()) {
         console.log("task was added!");
         addTask(taskMaker(title.value, description.value, project.value, dueDate.value, priority.value, notes.value, check.value));
-        updateTaskDisplay();
+        updateDisplay();
         form.reset();
         dialog.close();
     }
@@ -145,6 +145,6 @@ function cancelEvent() {
     dialog.close();
 }
 
-export function createDialog() {
+export function createTaskDialog() {
     return dialog;
 }

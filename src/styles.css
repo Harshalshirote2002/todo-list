@@ -96,6 +96,10 @@ main{
     width: 18px;
 }
 
+.space-icon{
+    width: 26px ;
+}
+
 .space{
     width: 100%;
     height: 30px;
@@ -117,8 +121,46 @@ main{
     width: 100%;
 }
 
-.space-icon{
-    width: 26px ;
+.add-space::before{
+    content: "+";
+    font-size: 32px;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.add-space{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 15px;
+    width: 100%;
+    height: 42px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #e5e7eb;
+    color: black;
+    font-size: 20px;
+    transition: 0.2s;
+}
+
+.add-space:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+    background-color: #d1d5db;
+}
+
+.add-space-form::before{
+    content: 'List';
+    font-size: 36px;
+    place-self: start center;
+}
+
+.add-space-form{
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 420px;
 }
 
 .task-holder
