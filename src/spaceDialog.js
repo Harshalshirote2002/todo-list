@@ -1,6 +1,8 @@
 import { addSpace } from "./spaces.js";
 import { updateDisplay } from "./homePage.js";
 import listIcon from './images/list.png';
+import { updateSpace } from "./spaces.js";
+let indexCounter = 3;
 
 function generateElement(type, options){
     let element = document.createElement(type);
@@ -71,8 +73,10 @@ function submitEvent(e) {
     if (form.checkValidity()) {
         console.log("space was added!");
         addSpace({
+            index: ++indexCounter,
             title: title.value,
             imageSrc: listIcon,
+            container: [],
         });
         updateDisplay();
         form.reset();

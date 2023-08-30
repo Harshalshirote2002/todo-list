@@ -1,18 +1,20 @@
+import { format, compareAsc } from 'date-fns'
 import { createTaskDialog } from './taskDialog.js';
 import { getTasks } from './taskData.js';
 import { createSpaceDialog } from './spaceDialog.js';
 import { getSpaces } from './spaces.js';
-import searchIcon from './images/search.png'
+import searchIcon from './images/search.png';
+import deadlineImage from './images/deadline.png';
 
-function generateElement(type, classes=[], options){
+function generateElement(type, classes = [], options) {
     const element = document.createElement(type);
-    for(let someClass of classes){
+    for (let someClass of classes) {
         element.classList.add(someClass);
     }
-    for(const key in options){
-        if(key==='textContent' || key==='type' || key==='value'){
+    for (const key in options) {
+        if (key === 'textContent' || key === 'type' || key === 'value') {
             element[key] = options[key];
-        }else{
+        } else {
             element.setAttribute(key, options[key]);
         }
     }
@@ -21,7 +23,7 @@ function generateElement(type, classes=[], options){
 
 const main = generateElement('main');
 const sidebar = generateElement('div', ['sidebar']);
-const sidebarHead = generateElement('div', ['sidebar-header'], {'textContent': 'John Doe',});
+const sidebarHead = generateElement('div', ['sidebar-header'], { 'textContent': 'John Doe', });
 const sidebarContent = generateElement('div', ['sidebar-content']);
 const taskHolder = generateElement('div', ['task-holder']);
 const taskHead = generateElement('div', ['task-header']);
@@ -41,7 +43,7 @@ function callTaskDialog() {
     dialog.style.top = `${topPosition}px`;
 }
 
-function callSpaceDialog(){
+function callSpaceDialog() {
     const dialog = document.querySelector('.add-space-dialog');
     dialog.showModal();
     const dialogWidth = dialog.offsetWidth;
@@ -71,16 +73,16 @@ function viewDropdown(e) {
 }
 
 export function updateDisplay() {
-    main.textContent=''; 
+    main.textContent = '';
 
-//--------------------------------------------Sidebar--------------------------------------------//
+    //--------------------------------------------Sidebar--------------------------------------------//
 
     //add sidebar header
     sidebar.appendChild(sidebarHead);
     taskHolder.appendChild(taskHead);
     //add search bar
     const spaces = getSpaces();
-    sidebarContent.textContent='';
+    sidebarContent.textContent = '';
     const searchBar = document.createElement('div');
     const icon1 = new Image();
     icon1.src = searchIcon;
@@ -89,7 +91,7 @@ export function updateDisplay() {
     searchBar.appendChild(icon1);
     sidebarContent.appendChild(searchBar);
     //add In-built labels
-    let i=0;
+    let i = 0;
     for (i; i < 4; i++) {
         const space = generateElement('div', ['space']);
         const title = generateElement('p', ['space-title']);
@@ -104,7 +106,7 @@ export function updateDisplay() {
     const divider = generateElement('div', ['space-divider']);
     sidebarContent.appendChild(divider);
     //add custom labels
-    for(i; i<spaces.length; i++){
+    for (i; i < spaces.length; i++) {
         const space = generateElement('div', ['space']);
         const title = generateElement('p', ['space-title']);
         const icon = new Image();
@@ -122,7 +124,8 @@ export function updateDisplay() {
     addSpace.addEventListener('click', callSpaceDialog);
     sidebarContent.appendChild(addSpace);
 
-//--------------------------------------------Tasks--------------------------------------------//
+    //--------------------------------------------Tasks--------------------------------------------//
+
     //add tasks header
     taskHead.textContent = 'Tasks';
     //add button to create new task
@@ -130,24 +133,39 @@ export function updateDisplay() {
     addTask.addEventListener('click', callTaskDialog);
     //add tasks to display
     const tasks = getTasks();
-    taskContent.textContent='';
+    taskContent.textContent = '';
     for (let i = 0; i < tasks.length; i++) {
         const task = generateElement('div', ['task', `${i}`]);
         const marker = generateElement('button', [`task-marker`]);
         const content = generateElement('div', ['task-content']);
         const parameters = generateElement('div', ['task-parameters']);
         const title = generateElement('p', ['task-title'], {
-            'textContent':tasks[i].title,
+            'textContent': tasks[i].title,
         });
         const description = generateElement('p', ['task-description'], {
             'textContent': tasks[i].description,
         });
         const deadline = generateElement('p', ['task-deadline'], {
-            'textContent': tasks[i].deadline,
+            'textContent': `${format((new Date(tasks[i].dueDate)), 'dd-MMM/yy')}`,
         });
-        const priority = generateElement('p', ['task-priority'], {
-            'textContent': tasks[i].priority,
-        });
+        const deadlineIcon = new Image();
+        deadlineIcon.src = deadlineImage;
+        deadline.append(deadlineIcon);
+        //
+        let priority;
+        if(tasks[i].priority<=3){
+            priority = generateElement('p', ['task-priority', 'low-priority'], {
+                'textContent': `low priority`,
+            });
+        }else if(tasks[i].priority<=6 && tasks[i].priority>3){
+            priority = generateElement('p', ['task-priority', 'mid-priority'], {
+                'textContent': `mid priority`,
+            });
+        }else{
+            priority = generateElement('p', ['task-priority', 'high-priority'], {
+                'textContent': `high priority`,
+            });
+        }
         const notes = generateElement('div', ['task-notes'], {
             'textContent': tasks[i].notes,
         });

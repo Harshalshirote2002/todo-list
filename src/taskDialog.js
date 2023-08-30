@@ -2,6 +2,8 @@ import taskMaker from "./taskFactory.js";
 import { addTask } from "./taskData.js";
 import { getSpaces } from "./spaces.js";
 import { updateDisplay } from "./homePage.js";
+import { updateSpace } from "./spaces.js";
+let id = 0;
 
 function generateElement(type, options) {
     let element = document.createElement(type);
@@ -131,14 +133,30 @@ dialog.classList.add('add-task-dialog');
 form.addEventListener('submit', submitEvent);
 dialog.appendChild(form);
 
+function spaceUpdater(task){
+    console.log('space updater called');
+    const spaces = getSpaces();
+    for(const space of spaces){
+        if(space.title===task.project){
+            updateSpace(space.index, task.id);
+            return;
+        }
+    }
+    console.log('space not found! ');
+}
+
 function submitEvent(e) {
     e.preventDefault();
     if (form.checkValidity()) {
         console.log("task was added!");
-        addTask(taskMaker(title.value, description.value, list.value, dueDate.value, priority.value, notes.value, check.value));
+        let task = taskMaker(id, title.value, description.value, list.value, dueDate.value, priority.value, notes.value, check.value);
+        addTask(task);
+        spaceUpdater(task)
         updateDisplay();
         form.reset();
         dialog.close();
+        id++;
+        console.log(id);
     }
 }
 
@@ -149,6 +167,7 @@ function cancelEvent() {
 
 export function createTaskDialog() {
     let spaces = getSpaces();
+    console.log(spaces);
     list.textContent='';
     for (const space of spaces) {
         if (space.title === 'All' || space.title === 'Completed') {
