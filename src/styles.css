@@ -109,13 +109,17 @@ main{
     align-items: center;
     justify-content: start;
     gap: 15px;
-    font-size: 24px;
+    font-size: 20px;
     transition: 0.2s ease-in-out;
 }
 
 .space:hover{
     cursor: pointer;
     /* transform: scale(1.03); */
+    background-color: #d1d5db;
+}
+
+.space-focus{
     background-color: #d1d5db;
 }
 

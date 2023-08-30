@@ -79,7 +79,7 @@ function changeMode(e){
 
 export function updateDisplay(mode='All') {
     main.textContent = '';
-
+    
     //--------------------------------------------Sidebar--------------------------------------------//
 
     //add sidebar header
@@ -106,6 +106,9 @@ export function updateDisplay(mode='All') {
         icon.src = spaces[i].imageSrc;
         space.append(icon, title);
         space.addEventListener('click', changeMode);
+        if(spaces[i].title === mode){
+            space.classList.add('space-focus');
+        }
         sidebarContent.appendChild(space);
     }
     //add New divider to separate In-built labels and custom labels
@@ -121,6 +124,9 @@ export function updateDisplay(mode='All') {
         icon.src = spaces[i].imageSrc;
         space.append(icon, title);
         space.addEventListener('click', changeMode);
+        if(spaces[i].title === mode){
+            space.classList.add('space-focus');
+        }
         sidebarContent.appendChild(space);
     }
     //add button to create new labels
@@ -130,7 +136,7 @@ export function updateDisplay(mode='All') {
     addSpace.addEventListener('click', callSpaceDialog);
     sidebarContent.appendChild(addSpace);
 
-    //obtain current space task list
+    //--------------------------------------------obtain current space task list--------------------------------------------//
     let taskList;
     for(const space of spaces){
         if(space.title===mode){
@@ -198,3 +204,4 @@ export function updateDisplay(mode='All') {
     console.log(tasks);
     return main;
 }
+
