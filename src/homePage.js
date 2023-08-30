@@ -2,9 +2,11 @@ import { format, compareAsc } from 'date-fns'
 import { createTaskDialog } from './taskDialog.js';
 import { getTasks } from './taskData.js';
 import { createSpaceDialog } from './spaceDialog.js';
-import { getSpaces } from './spaces.js';
+import { getSpaces, updateSpace } from './spaces.js';
 import searchIcon from './images/search.png';
 import deadlineImage from './images/deadline.png';
+import { updateCompleteSpace } from './spaces.js';
+import { updateTask } from './taskData.js';
 
 function generateElement(type, classes = [], options) {
     const element = document.createElement(type);
@@ -20,6 +22,15 @@ function generateElement(type, classes = [], options) {
     }
     return element;
 }
+
+function isNonIterable(value) {
+    return (
+      value === null ||
+      typeof value !== 'object' ||
+      typeof value === 'function'
+    );
+  }
+  
 
 const main = generateElement('main');
 const sidebar = generateElement('div', ['sidebar']);
@@ -72,14 +83,21 @@ function viewDropdown(e) {
     }
 }
 
-function changeMode(e){
-    console.log(e.target.textContent);
+function changeMode(e) {
     updateDisplay(e.target.textContent);
 }
 
-export function updateDisplay(mode='All') {
+function completeTask(e){
+    e.target.classList.add('task-completed');
+    e.target.textContent = "✓";
+    let taskId = e.target.id;
+    updateCompleteSpace(taskId);
+    updateTask(taskId);
+}
+
+export function updateDisplay(mode = 'All') {
     main.textContent = '';
-    
+
     //--------------------------------------------Sidebar--------------------------------------------//
 
     //add sidebar header
@@ -106,7 +124,7 @@ export function updateDisplay(mode='All') {
         icon.src = spaces[i].imageSrc;
         space.append(icon, title);
         space.addEventListener('click', changeMode);
-        if(spaces[i].title === mode){
+        if (spaces[i].title === mode) {
             space.classList.add('space-focus');
         }
         sidebarContent.appendChild(space);
@@ -124,7 +142,7 @@ export function updateDisplay(mode='All') {
         icon.src = spaces[i].imageSrc;
         space.append(icon, title);
         space.addEventListener('click', changeMode);
-        if(spaces[i].title === mode){
+        if (spaces[i].title === mode) {
             space.classList.add('space-focus');
         }
         sidebarContent.appendChild(space);
@@ -137,15 +155,18 @@ export function updateDisplay(mode='All') {
     sidebarContent.appendChild(addSpace);
 
     //--------------------------------------------obtain current space task list--------------------------------------------//
-    let taskList;
-    for(const space of spaces){
-        if(space.title===mode){
+    let taskList=0;
+    for (const space of spaces) {
+        if (space.title === mode) {
             taskList = space.container;
             break;
         }
     }
     //--------------------------------------------Tasks--------------------------------------------//
-
+    if(isNonIterable(taskList)){
+        taskList = [];
+    }
+    
     //add tasks header
     taskHead.textContent = 'Tasks';
     //add button to create new task
@@ -156,7 +177,7 @@ export function updateDisplay(mode='All') {
     taskContent.textContent = '';
     for (const i of taskList) {
         const task = generateElement('div', ['task', `${i}`]);
-        const marker = generateElement('button', [`task-marker`]);
+        const marker = generateElement('button', [`task-marker`], {'id': i,});
         const content = generateElement('div', ['task-content']);
         const parameters = generateElement('div', ['task-parameters']);
         const title = generateElement('p', ['task-title'], {
@@ -165,23 +186,31 @@ export function updateDisplay(mode='All') {
         const description = generateElement('p', ['task-description'], {
             'textContent': tasks[i].description,
         });
-        const deadline = generateElement('p', ['task-deadline'], {
-            'textContent': `${format((new Date(tasks[i].dueDate)), 'dd-MMM/yy')}`,
-        });
-        const deadlineIcon = new Image();
-        deadlineIcon.src = deadlineImage;
-        deadline.append(deadlineIcon);
+        let deadline;
+        if (tasks[i].dueDate) {
+            deadline = generateElement('p', ['task-deadline'], {
+                'textContent': `${format((new Date(tasks[i].dueDate)), 'dd-MMM/yy')}`,
+            });
+
+            const deadlineIcon = new Image();
+            deadlineIcon.src = deadlineImage;
+            deadline.append(deadlineIcon);
+        }else{
+            deadline = generateElement('p', ['task-deadline'], {
+                'textContent': ``,
+            });
+        }
         //
         let priority;
-        if(tasks[i].priority<=3){
+        if (tasks[i].priority <= 3) {
             priority = generateElement('p', ['task-priority', 'low-priority'], {
                 'textContent': `low priority`,
             });
-        }else if(tasks[i].priority<=6 && tasks[i].priority>3){
+        } else if (tasks[i].priority <= 6 && tasks[i].priority > 3) {
             priority = generateElement('p', ['task-priority', 'mid-priority'], {
                 'textContent': `mid priority`,
             });
-        }else{
+        } else {
             priority = generateElement('p', ['task-priority', 'high-priority'], {
                 'textContent': `high priority`,
             });
@@ -189,6 +218,12 @@ export function updateDisplay(mode='All') {
         const notes = generateElement('div', ['task-notes'], {
             'textContent': tasks[i].notes,
         });
+
+        if(tasks[i].check){
+            marker.classList.add('task-completed');
+            marker.textContent= "✓";
+        }
+        marker.addEventListener('click', completeTask);
         content.append(title, description);
         parameters.append(deadline, priority);
         task.append(marker, content, parameters, notes);
@@ -201,7 +236,6 @@ export function updateDisplay(mode='All') {
     const taskDialog = createTaskDialog();
     const spaceDialog = createSpaceDialog();
     main.append(sidebar, taskHolder, taskDialog, spaceDialog);
-    console.log(tasks);
     return main;
 }
 

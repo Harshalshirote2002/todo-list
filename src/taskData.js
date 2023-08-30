@@ -7,3 +7,7 @@ export function addTask(task) {
 export function getTasks() {
   return tasks;
 }
+
+export function updateTask(index){
+  tasks[index].check = true;
+}

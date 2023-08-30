@@ -75,7 +75,6 @@ dialog.appendChild(form);
 function submitEvent(e) {
     e.preventDefault();
     if (form.checkValidity()) {
-        console.log("space was added!");
         addSpace({
             index: ++indexCounter,
             title: capitalizeFirstLetter(title.value),

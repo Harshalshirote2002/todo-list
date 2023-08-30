@@ -9,8 +9,6 @@ function capitalizeFirstLetter(inputString) {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
   
-
-
 function generateElement(type, options) {
     let element = document.createElement(type);
     for (const key in options) {
@@ -62,7 +60,7 @@ const notes = generateElement('input', {
 
 const check = generateElement('input', {
     'id': 'check',
-    'type': 'checkbox'
+    'type': 'checkbox',
 });
 
 const titleLabel = generateElement('label', {
@@ -97,7 +95,7 @@ const notesLabel = generateElement('label', {
 
 const checkLabel = generateElement('label', {
     'for': 'check',
-    'textContent': 'Completed:'
+    'textContent': 'Completed:',
 });
 
 const submit = generateElement('button', {
@@ -140,29 +138,25 @@ form.addEventListener('submit', submitEvent);
 dialog.appendChild(form);
 
 function spaceUpdater(task){
-    console.log('space updater called');
     const spaces = getSpaces();
     for(const space of spaces){
         if(space.title===task.project){
-            updateSpace(space.index, task.id);
+            updateSpace(space.index, task.id, task.check);
             return;
         }
     }
-    console.log('space not found! ');
 }
 
 function submitEvent(e) {
     e.preventDefault();
     if (form.checkValidity()) {
-        console.log("task was added!");
-        let task = taskMaker(id, title.value, description.value, capitalizeFirstLetter(list.value), dueDate.value, priority.value, notes.value, check.value);
+        let task = taskMaker(id, title.value, description.value, capitalizeFirstLetter(list.value), dueDate.value, priority.value, notes.value, check.checked);
         addTask(task);
         spaceUpdater(task)
         updateDisplay();
         form.reset();
         dialog.close();
         id++;
-        console.log(id);
     }
 }
 
@@ -173,7 +167,6 @@ function cancelEvent() {
 
 export function createTaskDialog() {
     let spaces = getSpaces();
-    console.log(spaces);
     list.textContent='';
     for (const space of spaces) {
         if (space.title === 'All' || space.title === 'Completed') {

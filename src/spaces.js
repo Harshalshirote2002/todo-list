@@ -38,10 +38,16 @@ export function getSpaces(){
     return spaces;
 }
 
-export function updateSpace(index, taskId){
-    console.log(index, taskId)
-    spaces[index].container.push(taskId);
-    spaces[3].container.push(taskId);
-    console.log('space updated');
-    console.log(spaces);
+export function updateSpace(index, taskId, check){
+    spaces[index].container.push(parseInt(taskId));
+    spaces[3].container.push(parseInt(taskId));
+    if(check===true && !spaces[2].container.includes(parseInt(taskId))){
+        spaces[2].container.push(parseInt(taskId));
+    }
+}
+
+export function updateCompleteSpace(id){
+    if(!spaces[2].container.includes(parseInt(id))){
+        spaces[2].container.push(parseInt(id));
+    }
 }
