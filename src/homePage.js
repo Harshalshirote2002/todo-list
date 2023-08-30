@@ -7,6 +7,7 @@ import searchIcon from './images/search.png';
 import deadlineImage from './images/deadline.png';
 import { updateCompleteSpace } from './spaces.js';
 import { updateTask } from './taskData.js';
+import headImage from './images/user.png'
 
 function generateElement(type, classes = [], options) {
     const element = document.createElement(type);
@@ -100,7 +101,12 @@ export function updateDisplay(mode = 'All') {
 
     //--------------------------------------------Sidebar--------------------------------------------//
 
+    sidebar.textContent = ''
     //add sidebar header
+    const sidebarHead = generateElement('div', ['sidebar-header'], { 'textContent': 'John Doe', });
+    const headerImage = new Image();
+    headerImage.src = headImage;
+    sidebarHead.appendChild(headerImage);
     sidebar.appendChild(sidebarHead);
     taskHolder.appendChild(taskHead);
     //add search bar

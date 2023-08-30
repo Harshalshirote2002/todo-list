@@ -58,11 +58,22 @@ main{
     background-color: #e5e7eb;
     max-width: 300px;
     min-width: 250px;
+    box-shadow: 2px 0px 4px black;
+    z-index: 1;
 }
 
 .sidebar-header{
     font-size: 36px;
     place-self: start;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.sidebar-header img{
+    width: 36px;
 }
 
 .sidebar-content{
@@ -176,7 +187,7 @@ main{
     flex-direction: column;
     padding: 20px;
     gap: 20px;
-    background-image: url(./images/task-background2.jpg);
+    background-image: url(./images/background.jpg);
     background-size: cover;
     min-height: 100vh;
 }
