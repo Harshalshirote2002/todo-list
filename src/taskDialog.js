@@ -1,24 +1,107 @@
 import taskMaker from "./taskFactory.js";
 import { addTask } from "./taskData.js";
 import { updateTaskDisplay } from "./homePage.js";
+
+function generateElement(type, options){
+    let element = document.createElement(type);
+    for(const key in options){
+        if(key==='textContent' || key==='type' || key==='value'){
+            element[key] = options[key];
+        }else{
+            element.setAttribute(key, options[key]);
+        }
+    }
+    return element;
+}
+
 const dialog = document.createElement('dialog');
 const form = document.createElement('form');
-const title = document.createElement('input');
-const description = document.createElement('input');
-const project = document.createElement('input');
-const dueDate = document.createElement('input');
-const priority = document.createElement('input');
-const notes = document.createElement('input');
-const check = document.createElement('input');
-const titleLabel = document.createElement('label');
-const descriptionLabel = document.createElement('label');
-const projectLabel = document.createElement('label');
-const dueDateLabel = document.createElement('label');
-const priorityLabel = document.createElement('label');
-const notesLabel = document.createElement('label');
-const checkLabel = document.createElement('label');
-const submit = document.createElement('button');
-const cancel = document.createElement('button');
+
+const title = generateElement('input', {
+    'id': 'title',
+    'type': 'text',
+    'required': true,
+});
+
+const description = generateElement('input', {
+    'id': 'description',
+    'type': 'text',
+});
+
+const project = generateElement('input', {
+    'id': 'project',
+    'type': 'text',
+});
+
+const dueDate = generateElement('input', {
+    'id': 'dueDate',
+    'type': 'date',
+});
+
+const priority = generateElement('input', {
+    'id': 'priority',
+    'type': 'range',
+    'min': '1',
+    'max': '10',
+    'value': '2',
+
+});
+
+const notes = generateElement('input', {
+    'id': 'notes',
+    'type': 'text',
+});
+
+const check = generateElement('input', {
+    'id': 'check',
+    'type': 'checkbox'
+});
+
+const titleLabel = generateElement('label', {
+    'for': 'title',
+    'textContent': 'Title:',
+});
+
+const descriptionLabel = generateElement('label', {
+    'for': 'description',
+    'textContent': 'Description:',
+});
+
+const projectLabel = generateElement('label', {
+    'for': 'project',
+    'textContent': 'Project:',
+});
+
+const dueDateLabel = generateElement('label', {
+    'for': 'dueDate',
+    'textContent': 'Due date:',
+});
+
+const priorityLabel = generateElement('label', {
+    'for': 'priority',
+    'textContent': 'Priority:',
+});
+
+const notesLabel = generateElement('label', {
+    'for': 'notes',
+    'textContent': 'Notes:',
+});
+
+const checkLabel = generateElement('label', {
+    'for': 'check',
+    'textContent': 'Completed:'
+});
+
+const submit = generateElement('button', {
+    'type': 'submit',
+    'textContent': 'Add',
+});
+
+const cancel = generateElement('button', {
+    'type': 'reset',
+    'textContent': 'Cancel',
+});
+
 const titleDiv = document.createElement('div');
 const descriptionDiv = document.createElement('div');
 const projectDiv = document.createElement('div');
@@ -27,43 +110,9 @@ const priorityDiv = document.createElement('div');
 const notesDiv = document.createElement('div');
 const checkDiv = document.createElement('div');
 const buttonDiv = document.createElement('div');
-title.id = 'title';
-description.id = 'description';
-project.id = 'project';
-dueDate.id = 'dueDate';
-priority.id = 'priority';
-notes.id = 'notes';
-check.id = 'check';
-titleLabel.setAttribute('for', 'title');
-descriptionLabel.setAttribute('for', 'description');
-projectLabel.setAttribute('for', 'project');
-dueDateLabel.setAttribute('for', 'dueDate');
-priorityLabel.setAttribute('for', 'priority');
-notesLabel.setAttribute('for', 'notes');
-checkLabel.setAttribute('for', 'check');
-titleLabel.textContent = 'title: ';
-descriptionLabel.textContent = 'description: ';
-projectLabel.textContent = 'project: ';
-dueDateLabel.textContent = 'due date: ';
-priorityLabel.textContent = 'priority: ';
-notesLabel.textContent = 'notes: ';
-checkLabel.textContent = 'completed: ';
-title.type = 'text';
-description.type = 'text';
-project.type = 'text';
-priority.type = 'range';
-priority.min = '1';
-priority.max = '10';
-priority.value = '3';
-dueDate.type = 'date';
-notes.type = 'text';
-check.type = 'checkbox';
-submit.type = 'submit';
-cancel.type = 'reset';
-submit.textContent = 'add';
-cancel.textContent = 'cancel';
+
 cancel.addEventListener('click', cancelEvent);
-title.required = true;
+
 titleDiv.append(titleLabel, title);
 descriptionDiv.append(descriptionLabel, description);
 projectDiv.append(projectLabel, project);
@@ -72,6 +121,7 @@ dueDateDiv.append(dueDateLabel, dueDate);
 notesDiv.append(notesLabel, notes);
 checkDiv.append(checkLabel, check);
 buttonDiv.append(submit, cancel);
+
 form.append(titleDiv, descriptionDiv, projectDiv, priorityDiv, dueDateDiv, notesDiv, checkDiv, buttonDiv);
 form.method = 'dialog';
 form.classList.add('add-task-form');
