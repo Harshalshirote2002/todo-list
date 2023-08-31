@@ -1,56 +1,57 @@
-import { addSpace, getSpaces } from "./spaces.js";
-import { updateDisplay } from "./homePage.js";
+import {addSpace, getSpaces} from './spaces.js';
+import {updateDisplay} from './homePage.js';
 import listIcon from './images/list.png';
 
 function capitalizeFirstLetter(inputString) {
-    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+	return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
 
 function generateElement(type, options) {
-    let element = document.createElement(type);
-    for (const key in options) {
-        if (key === 'textContent' || key === 'type' || key === 'value') {
-            element[key] = options[key];
-        } else {
-            element.setAttribute(key, options[key]);
-        }
-    }
-    return element;
+	const element = document.createElement(type);
+	for (const key in options) {
+		if (key === 'textContent' || key === 'type' || key === 'value') {
+			element[key] = options[key];
+		} else {
+			element.setAttribute(key, options[key]);
+		}
+	}
+
+	return element;
 }
 
 const dialog = document.createElement('dialog');
 const form = document.createElement('form');
 
 const title = generateElement('input', {
-    'id': 'title',
-    'type': 'text',
-    'required': true,
+	id: 'title',
+	type: 'text',
+	required: true,
 });
 
 const color = generateElement('input', {
-    'id': 'color',
-    'type': 'color',
-    'required': true,
+	id: 'color',
+	type: 'color',
+	required: true,
 });
 
 const titleLabel = generateElement('label', {
-    'for': 'title',
-    'textContent': 'Title:',
+	for: 'title',
+	textContent: 'Title:',
 });
 
 const colorLabel = generateElement('label', {
-    'for': 'color',
-    'textContent': 'color:',
+	for: 'color',
+	textContent: 'color:',
 });
 
 const submit = generateElement('button', {
-    'type': 'submit',
-    'textContent': 'Add',
+	type: 'submit',
+	textContent: 'Add',
 });
 
 const cancel = generateElement('button', {
-    'type': 'reset',
-    'textContent': 'Cancel',
+	type: 'reset',
+	textContent: 'Cancel',
 });
 
 const titleDiv = document.createElement('div');
@@ -71,26 +72,26 @@ form.addEventListener('submit', submitEvent);
 dialog.appendChild(form);
 
 function submitEvent(e) {
-    e.preventDefault();
-    const spaces = getSpaces();
-    if (form.checkValidity()) {
-        addSpace({
-            index: spaces.length,
-            title: capitalizeFirstLetter(title.value),
-            imageSrc: listIcon,
-            container: [],
-        });
-        updateDisplay();
-        form.reset();
-        dialog.close();
-    }
+	e.preventDefault();
+	const spaces = getSpaces();
+	if (form.checkValidity()) {
+		addSpace({
+			index: spaces.length,
+			title: capitalizeFirstLetter(title.value),
+			imageSrc: listIcon,
+			container: [],
+		});
+		updateDisplay();
+		form.reset();
+		dialog.close();
+	}
 }
 
 function cancelEvent() {
-    form.reset();
-    dialog.close();
+	form.reset();
+	dialog.close();
 }
 
 export function createSpaceDialog() {
-    return dialog;
+	return dialog;
 }
